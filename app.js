@@ -1,7 +1,8 @@
 /* ============================================================
    ОФФТОП ПОСТ — логика номера
-   1) Счётчик страниц и подсветка навигации
-   2) Видеоплеер с главами (как на ютубе)
+   1) Книга: листание разворотов (стрелки, колесо, клавиатура, чипы)
+   2) Масштаб разворота под экран
+   3) Видеоплеер с главами (как на ютубе)
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -17,37 +18,103 @@ const CHAPTERS = [
 ];
 const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хосте
 
-/* ------------------------------------------------------------
-   1. СТРАНИЦЫ: счётчик + активный пункт навигации
------------------------------------------------------------- */
+/* ============================================================
+   1+2. КНИГА: листание и масштаб
+============================================================ */
 (function () {
-  const pages = document.querySelectorAll('.page');
-  const chips = document.querySelectorAll('#nav a');
+  const spreads = [...document.querySelectorAll('.spread')];
+  const total = spreads.length;
   const pageno = document.getElementById('pageno');
-  const total = pages.length;
+  const chips = [...document.querySelectorAll('#nav a')];
+  const dotsBox = document.getElementById('dots');
+  if (!spreads.length) return;
 
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      const idx = [...pages].indexOf(e.target) + 1;
-      pageno.textContent = `стр. ${idx} / ${total}`;
-      chips.forEach((c) => {
-        const active = c.getAttribute('href') === '#' + e.target.id;
-        c.classList.toggle('active', active);
-        if (active) {
-          // подтягиваем чип в видимую часть ленты на мобильном
-          c.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
-        }
-      });
+  let idx = 0;
+
+  // точки-навигация
+  const dots = spreads.map((_, i) => {
+    const d = document.createElement('i');
+    d.title = 'Разворот ' + (i + 1);
+    d.addEventListener('click', () => go(i));
+    dotsBox.appendChild(d);
+    return d;
+  });
+
+  function render() {
+    spreads.forEach((s, i) => {
+      s.classList.toggle('on', i === idx);
+      s.classList.toggle('before', i < idx);
     });
-  }, { rootMargin: '-45% 0px -45% 0px' });
+    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+    pageno.textContent = `разворот ${idx + 1} / ${total}`;
+    chips.forEach((c) => {
+      const target = c.getAttribute('href').slice(1);
+      const targetIdx = spreads.findIndex((s) => s.id === target);
+      c.classList.toggle('active', targetIdx === idx);
+    });
+  }
 
-  pages.forEach((p) => obs.observe(p));
+  function go(i) {
+    idx = Math.max(0, Math.min(total - 1, i));
+    render();
+    if (history.replaceState) history.replaceState(null, '', '#' + spreads[idx].id);
+  }
+  const next = () => go(idx + 1);
+  const prev = () => go(idx - 1);
+
+  document.getElementById('nextBtn').addEventListener('click', next);
+  document.getElementById('prevBtn').addEventListener('click', prev);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(total - 1);
+  });
+
+  // колесо мыши / тачпад — с задержкой, чтобы листалось по одному
+  let wheelLock = false;
+  window.addEventListener('wheel', (e) => {
+    if (window.innerWidth < 1100) return; // на мобильном — обычный скролл
+    if (wheelLock) return;
+    if (Math.abs(e.deltaY) < 24) return;
+    wheelLock = true;
+    setTimeout(() => (wheelLock = false), 650);
+    if (e.deltaY > 0) next(); else prev();
+  }, { passive: true });
+
+  // чипы навигации → развороты
+  chips.forEach((c) => {
+    c.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = c.getAttribute('href').slice(1);
+      const i = spreads.findIndex((s) => s.id === target);
+      if (i >= 0) go(i);
+    });
+  });
+
+  // масштаб разворота под экран
+  function fit() {
+    const s = Math.min((window.innerWidth - 130) / 1300, (window.innerHeight - 92) / 810, 1.15);
+    document.documentElement.style.setProperty('--s', Math.max(s, 0.3));
+  }
+  window.addEventListener('resize', fit);
+  fit();
+
+  // стартовый разворот из хеша (#s3 и т.п.)
+  function fromHash() {
+    const id = location.hash.slice(1);
+    const i = spreads.findIndex((s) => s.id === id);
+    if (i >= 0) { idx = i; render(); }
+  }
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+  render();
 })();
 
-/* ------------------------------------------------------------
-   2. ПЛЕЕР С ГЛАВАМИ
------------------------------------------------------------- */
+/* ============================================================
+   3. ПЛЕЕР С ГЛАВАМИ
+============================================================ */
 (function () {
   const tv = document.getElementById('player');
   const video = document.getElementById('video');
@@ -69,7 +136,6 @@ const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хост
     return String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
   };
 
-  // Плашки глав
   const chips = CHAPTERS.map((ch, i) => {
     const b = document.createElement('button');
     b.className = 'chip';
@@ -83,7 +149,6 @@ const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хост
   function buildMarks() {
     if (marksBuilt || !duration) return;
     marksBuilt = true;
-    // метки глав на полосе (кроме нулевой)
     CHAPTERS.slice(1).forEach((ch) => {
       const m = document.createElement('div');
       m.className = 'mark';
@@ -97,7 +162,6 @@ const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хост
     const pct = duration ? (video.currentTime / duration * 100) : 0;
     fill.style.width = pct + '%';
     tCur.textContent = fmt(video.currentTime);
-    // активная глава — последняя, чьё время уже началось
     let idx = 0;
     CHAPTERS.forEach((ch, i) => { if (video.currentTime + 0.15 >= ch.t) idx = i; });
     chips.forEach((c, i) => c.classList.toggle('active', i === idx));
@@ -107,7 +171,6 @@ const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хост
     duration = video.duration;
     tDur.textContent = fmt(duration);
     buildMarks();
-    // подписи времени на плашках
     chips.forEach((c, i) => {
       const next = CHAPTERS[i + 1] ? CHAPTERS[i + 1].t : duration;
       const span = Math.max(0, next - CHAPTERS[i].t);
@@ -118,7 +181,6 @@ const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хост
   video.addEventListener('timeupdate', refresh);
   video.addEventListener('seeked', refresh);
 
-  // Клик по полосе — перемотка
   bar.addEventListener('click', (e) => {
     if (!duration) return;
     const r = bar.getBoundingClientRect();
@@ -126,16 +188,8 @@ const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хост
     video.currentTime = pct * duration;
   });
 
-  // Файла нет — показываем «нет сигнала»
   video.addEventListener('error', () => {
     tv.classList.add('error');
     video.controls = false;
   });
-
-  // Если видео не загрузилось на медленном хосте — проверим по таймауту
-  setTimeout(() => {
-    if (video.readyState === 0) {
-      // ещё не начали грузить metadata (лениво) — не считаем ошибкой
-    }
-  }, 3000);
 })();
