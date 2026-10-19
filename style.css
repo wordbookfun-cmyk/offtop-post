@@ -81,11 +81,11 @@ a{color:inherit}
 .book{
   position:fixed;top:52px;left:0;right:0;bottom:0;
   perspective:2400px;
-  display:flex;align-items:center;justify-content:center;
+  display:grid;place-items:center;
   overflow:hidden;
 }
 .spread{
-  position:absolute;
+  grid-area:1/1;position:relative;
   width:calc(var(--pw)*2);height:var(--ph);
   display:grid;grid-template-columns:var(--pw) var(--pw);
   transform:scale(var(--s,1)) translateX(5%) rotateY(-12deg);
