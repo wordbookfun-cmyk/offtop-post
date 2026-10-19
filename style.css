@@ -1,0 +1,508 @@
+/* ============================================================
+   ОФФТОП ПОСТ — газетный сайт «Оффтоп FM» (13.37)
+   Эстетика: подростковый фанзин конца 80-х (Teen Beat / BOP / 16)
+   Бумага, чернила, красный акцент. Никакого web 2.0.
+   ============================================================ */
+
+/* ---------- Токены ---------- */
+:root{
+  --paper:#efe3c8;
+  --paper-2:#e7d8b4;
+  --paper-3:#f6edd9;
+  --ink:#211d15;
+  --ink-soft:#544c3a;
+  --red:#b23a2b;
+  --red-dark:#8c2a1e;
+  --mint:#8fcbb2;
+  --mint-dark:#2f6b52;
+  --yellow:#f0c24b;
+  --pink:#f2cdc2;
+  --blue-row:#2c4763;
+  --cyan:#9adfe8;
+  --serif:'PT Serif',Georgia,'Times New Roman',serif;
+  --display:'Playfair Display',Georgia,serif;
+  --label:'Oswald','Arial Narrow',Arial,sans-serif;
+  --shadow:4px 5px 0 rgba(33,29,21,.35);
+}
+
+/* ---------- Сброс ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+
+/* Бумажное зерно поверх всего */
+body::after{
+  content:"";position:fixed;inset:0;z-index:999;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity:.22;mix-blend-mode:multiply;
+}
+
+img{max-width:100%;display:block}
+a{color:inherit}
+::selection{background:var(--yellow);color:var(--ink)}
+
+/* ---------- Страницы (развороты) ---------- */
+.page{
+  position:relative;
+  min-height:100vh;
+  padding:84px clamp(18px,5vw,72px) 72px;
+  scroll-snap-align:start;
+  scroll-margin-top:52px;
+  border-bottom:2px solid var(--ink);
+  background:
+    linear-gradient(90deg,rgba(33,29,21,.09),transparent 9% 91%,rgba(33,29,21,.09)),
+    var(--paper);
+}
+.page.alt{background:
+  linear-gradient(90deg,rgba(33,29,21,.09),transparent 9% 91%,rgba(33,29,21,.09)),
+  var(--paper-2);}
+.page.pink{background:
+  linear-gradient(90deg,rgba(33,29,21,.08),transparent 9% 91%,rgba(33,29,21,.08)),
+  var(--pink);}
+
+/* Сгиб газеты по центру */
+.page::before{
+  content:"";position:absolute;top:0;bottom:0;left:50%;width:110px;
+  transform:translateX(-50%);pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(33,29,21,.07) 45%,rgba(33,29,21,.11) 50%,rgba(33,29,21,.07) 55%,transparent);
+}
+
+/* ---------- Зигзаг-разделитель ---------- */
+.zz{
+  height:12px;border:none;
+  background:
+    linear-gradient(-45deg,var(--ink) 7px,transparent 0) 0 0/14px 14px repeat-x,
+    linear-gradient(45deg,var(--ink) 7px,transparent 0) 0 0/14px 14px repeat-x;
+  margin:26px 0;
+}
+
+/* ---------- Верхняя липкая лента ---------- */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;gap:12px;
+  padding:7px 14px;
+  background:var(--paper-3);
+  border-bottom:2px solid var(--ink);
+  font-family:var(--label);
+}
+.topbar .logo{
+  font-family:var(--display);font-weight:900;font-size:1.05rem;
+  white-space:nowrap;letter-spacing:.02em;
+}
+.topbar .logo span{color:var(--red)}
+.navchips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.navchips::-webkit-scrollbar{display:none}
+.navchips a{
+  white-space:nowrap;text-decoration:none;
+  font-size:.68rem;text-transform:uppercase;letter-spacing:.09em;
+  border:1.5px solid var(--ink);padding:3px 10px;
+  transition:background .15s,color .15s;
+}
+.navchips a:hover,.navchips a.active{background:var(--ink);color:var(--paper)}
+.pageno{
+  margin-left:auto;white-space:nowrap;
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);
+}
+@media(max-width:640px){.topbar .pageno{display:none}.topbar .logo{font-size:.9rem}}
+
+/* ---------- Типографика ---------- */
+.kicker{
+  display:inline-block;font-family:var(--label);
+  font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;
+  border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  padding:3px 10px;margin-bottom:14px;
+}
+h1,h2,h3{font-family:var(--display);font-weight:900;line-height:1.04}
+.headline{font-size:clamp(1.9rem,4.6vw,3.4rem);margin:10px 0 14px}
+.headline:hover{text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:4px;text-underline-offset:8px}
+.deck{font-style:italic;font-size:clamp(1.05rem,2vw,1.3rem);color:var(--ink-soft);max-width:70ch}
+.byline{
+  font-family:var(--label);font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);margin:10px 0 20px;
+}
+.byline b{color:var(--ink)}
+.cols{columns:2 330px;column-gap:34px;column-rule:1px solid rgba(33,29,21,.4);text-align:justify;hyphens:auto}
+.cols p{margin-bottom:.9em;break-inside:avoid-column}
+.dropcap::first-letter{
+  font-family:var(--display);font-weight:900;
+  font-size:3.9em;float:left;line-height:.78;
+  padding:.06em .14em 0 0;color:var(--red);
+}
+.q{font-style:italic;white-space:nowrap}
+mark{background:var(--yellow);padding:0 4px}
+
+/* ---------- Шапка-логотип (первая полоса) ---------- */
+.masthead{text-align:center;margin-bottom:26px}
+.masthead .name{
+  font-family:var(--display);font-weight:900;
+  font-size:clamp(2.6rem,9.5vw,7rem);line-height:.95;letter-spacing:.01em;
+  text-shadow:2px 2px 0 rgba(178,58,43,.25);
+}
+.masthead .name .fm{color:var(--red)}
+.rule-double{border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);height:6px;margin:10px 0}
+.rule-double.up{border-top:1px solid var(--ink);border-bottom:3px solid var(--ink)}
+.issue-line{
+  font-family:var(--label);font-size:clamp(.62rem,1.6vw,.85rem);
+  letter-spacing:.14em;text-transform:uppercase;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;
+  padding:7px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+}
+
+/* ---------- Плашки рубрик (Then & Now) ---------- */
+.plate{display:flex;align-items:center;gap:14px;margin:0 0 30px}
+.plate .tag{
+  font-family:var(--label);font-weight:600;text-transform:uppercase;
+  letter-spacing:.1em;font-size:clamp(.95rem,2.4vw,1.3rem);
+  background:var(--yellow);color:var(--ink);
+  border:2px solid var(--ink);padding:8px 20px;
+  box-shadow:var(--shadow);
+}
+.plate .tag.mint{background:var(--mint)}
+.plate .tag.pink{background:var(--pink)}
+.plate .tag.red{background:var(--red);color:var(--paper-3)}
+.plate .strip{flex:1;height:7px;background:repeating-linear-gradient(90deg,var(--ink) 0 14px,transparent 14px 21px)}
+.plate .sub{
+  font-family:var(--label);font-size:.72rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;
+}
+@media(max-width:640px){.plate .sub{display:none}}
+
+/* ---------- Штампы ---------- */
+.stamp{
+  display:inline-block;font-family:var(--label);font-weight:600;
+  text-transform:uppercase;letter-spacing:.18em;
+  color:var(--red);border:3px double var(--red);
+  padding:5px 14px;transform:rotate(-5deg);
+  transition:transform .25s;
+}
+.stamp:hover{transform:rotate(2deg) scale(1.06)}
+.stamp.ink{color:var(--ink);border-color:var(--ink)}
+.stamp.big{font-size:clamp(1.1rem,3vw,1.7rem);border-width:4px}
+
+/* ---------- Фото (полутоновые заглушки) ---------- */
+.photo{
+  position:relative;aspect-ratio:4/3;overflow:hidden;
+  border:2px solid var(--ink);box-shadow:var(--shadow);
+  background:
+    radial-gradient(circle,rgba(33,29,21,.7) 1px,transparent 1.6px) 0 0/4px 4px,
+    #c9bc9a;
+  display:flex;align-items:flex-end;
+  transition:transform .25s,box-shadow .25s;
+}
+.photo:hover{transform:rotate(.5deg) scale(1.015);box-shadow:7px 9px 0 rgba(33,29,21,.35)}
+.photo::before{
+  content:"ФОТО";position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) rotate(-4deg);
+  font-family:var(--label);letter-spacing:.3em;font-size:1rem;
+  color:rgba(33,29,21,.45);border:2px solid rgba(33,29,21,.45);padding:4px 12px;
+}
+.photo figcaption{
+  width:100%;background:var(--paper);border-top:2px solid var(--ink);
+  font-family:var(--label);font-size:.68rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:4px 10px;position:relative;z-index:1;
+}
+.photo.tall{aspect-ratio:3/4}
+.photo.wide{aspect-ratio:16/9}
+
+/* ---------- Первая полоса: заголовок ---------- */
+.front-head{text-align:center;max-width:1100px;margin:26px auto 8px;position:relative}
+.front-head .molniya{
+  position:absolute;top:-14px;right:0;left:auto;
+  transform:rotate(6deg);
+}
+@media(max-width:900px){.front-head .molniya{position:static;display:inline-block;transform:rotate(-3deg);margin-bottom:10px}}
+.front-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:30px;margin-top:26px}
+@media(max-width:860px){.front-cols{grid-template-columns:1fr}}
+.continue{
+  text-align:center;margin-top:30px;
+  font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;
+  font-size:.85rem;
+}
+.continue a{
+  text-decoration:none;border:2px solid var(--ink);padding:8px 18px;
+  background:var(--paper-3);box-shadow:var(--shadow);
+  transition:transform .15s,background .15s,color .15s;
+  display:inline-block;
+}
+.continue a:hover{background:var(--red);color:var(--paper-3);transform:translate(2px,2px);box-shadow:2px 3px 0 rgba(33,29,21,.35)}
+
+/* ---------- Кнопка «листай» в углу страницы ---------- */
+.flip{
+  position:absolute;right:clamp(14px,3vw,40px);bottom:14px;z-index:5;
+  font-family:var(--label);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;color:var(--paper-3);background:var(--ink);
+  padding:8px 16px;border:2px solid var(--ink);
+  transition:background .15s,transform .15s;
+}
+.flip:hover{background:var(--red);transform:translateY(-3px)}
+
+/* ---------- Вести с Лолзграда ---------- */
+.news-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:34px}
+@media(max-width:860px){.news-grid{grid-template-columns:1fr}}
+.newsbox{
+  border:2px solid var(--ink);background:var(--paper-3);
+  padding:22px;box-shadow:var(--shadow);
+  transition:transform .2s,box-shadow .2s;
+}
+.newsbox:hover{transform:translateY(-4px);box-shadow:6px 8px 0 rgba(33,29,21,.35)}
+.newsbox h3{font-size:clamp(1.3rem,2.6vw,1.9rem);margin-bottom:10px}
+.lawbox{
+  border:2px solid var(--ink);background:var(--yellow);
+  padding:18px;font-size:.95rem;
+}
+.lawbox h4{font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.minihead{
+  font-family:var(--label);font-size:.75rem;letter-spacing:.14em;
+  text-transform:uppercase;border-bottom:2px solid var(--ink);
+  padding-bottom:4px;margin:22px 0 10px;color:var(--ink-soft);
+}
+
+/* ---------- Розовая страница «Новость дня» ---------- */
+.pink-title{
+  font-family:var(--display);font-weight:900;text-align:center;
+  font-size:clamp(2rem,6.5vw,4.6rem);line-height:1.02;
+  color:var(--red-dark);
+  margin:18px auto 6px;max-width:900px;
+}
+.pink-title .ln{display:block}
+.pink-title .ln:nth-child(1){transform:rotate(-1.2deg)}
+.pink-title .ln:nth-child(2){transform:rotate(1deg)}
+.pink-title .ln:nth-child(3){transform:rotate(-.8deg)}
+.pink-title .u{box-shadow:inset 0 -6px 0 rgba(178,58,43,.4)}
+.hot-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:34px;margin-top:26px;align-items:start}
+@media(max-width:860px){.hot-wrap{grid-template-columns:1fr}}
+.facts{position:relative;display:flex;flex-wrap:wrap;gap:18px;justify-content:center;padding:10px 0}
+.fact{
+  background:var(--paper-3);border:1.5px solid var(--ink);
+  padding:14px 16px;max-width:270px;font-size:.93rem;
+  box-shadow:3px 4px 0 rgba(33,29,21,.3);
+  transition:transform .2s;
+}
+.fact:nth-child(3n+1){transform:rotate(-2.4deg)}
+.fact:nth-child(3n+2){transform:rotate(1.8deg)}
+.fact:nth-child(3n){transform:rotate(-.8deg)}
+.fact:hover{transform:rotate(0) translateY(-4px) scale(1.03);z-index:2}
+.fact b{font-family:var(--label);text-transform:uppercase;letter-spacing:.06em;font-size:.8rem;color:var(--red-dark);display:block;margin-bottom:4px}
+
+/* ---------- Темы недели: карточки ---------- */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+@media(max-width:1100px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.grid3,.grid2{grid-template-columns:1fr}}
+.topic{
+  border:2px solid var(--ink);background:var(--paper-3);
+  padding:20px;position:relative;box-shadow:var(--shadow);
+  transition:transform .2s,box-shadow .2s;
+}
+.topic:hover{transform:translateY(-5px) rotate(-.4deg);box-shadow:6px 9px 0 rgba(33,29,21,.35)}
+.topic .no{
+  position:absolute;top:-14px;left:14px;background:var(--ink);color:var(--paper);
+  font-family:var(--label);font-size:.72rem;letter-spacing:.1em;padding:3px 10px;
+}
+.topic h3{font-size:clamp(1.15rem,2vw,1.5rem);margin:8px 0 10px}
+.topic p{font-size:.93rem}
+.topic .cq{
+  margin-top:12px;padding:8px 12px;background:var(--paper);
+  border-left:4px solid var(--red);font-style:italic;font-size:.88rem;
+}
+
+/* ---------- Цитата номера ---------- */
+.bigquote{
+  max-width:900px;margin:40px auto;text-align:center;
+  border:4px double var(--ink);outline:2px solid var(--ink);outline-offset:7px;
+  background:var(--paper-3);padding:clamp(28px,6vw,64px) clamp(18px,4vw,56px);
+  transition:transform .2s;
+}
+.bigquote:hover{animation:jiggle .5s ease}
+@keyframes jiggle{25%{transform:rotate(.5deg)}50%{transform:rotate(-.5deg)}75%{transform:rotate(.25deg)}}
+.bigquote .q-big{
+  font-family:var(--display);font-weight:900;
+  font-size:clamp(2.6rem,9vw,6.5rem);line-height:1;color:var(--red);
+  text-shadow:3px 3px 0 rgba(33,29,21,.25);
+}
+.bigquote .attr{font-family:var(--label);text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;margin-top:18px;color:var(--ink-soft)}
+.stars-row{text-align:center;margin-top:18px;letter-spacing:1.2em;color:var(--ink);font-size:.9rem}
+.stars-row::before{content:"★ ★ ★ ★ ★"}
+
+/* ---------- Письма в редакцию ---------- */
+.letters{display:grid;grid-template-columns:1.5fr 1fr;gap:34px;align-items:start}
+@media(max-width:860px){.letters{grid-template-columns:1fr}}
+.letter{
+  border:2px solid var(--ink);background:var(--paper-3);padding:24px;
+  box-shadow:var(--shadow);position:relative;
+  transition:transform .2s;
+}
+.letter:hover{transform:rotate(-.5deg) translateY(-3px)}
+.letter .from{font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:.75rem;color:var(--red-dark);margin-bottom:10px}
+.letter blockquote{font-size:1.05rem;font-style:italic}
+.letter .reply{margin-top:14px;padding-top:12px;border-top:1px dashed var(--ink);font-size:.93rem}
+.letter .reply b{font-family:var(--label);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* ---------- Погода ---------- */
+.wtable{border:3px solid var(--ink);box-shadow:var(--shadow);background:var(--blue-row)}
+.wrow{
+  display:grid;grid-template-columns:1.3fr 1fr auto;gap:10px;align-items:center;
+  padding:12px 16px;border-bottom:1px solid rgba(239,227,200,.35);
+  transition:background .2s,transform .2s;cursor:default;
+}
+.wrow:last-child{border-bottom:none}
+.wrow:hover{background:var(--yellow);transform:translateX(6px)}
+.wrow:hover .wc,.wrow:hover .wt{color:var(--ink)}
+.wc{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--yellow)}
+.wd{font-size:.85rem;color:#e8eef5}
+.wt{font-family:var(--label);font-weight:700;font-size:1.5rem;color:var(--cyan)}
+.whead{padding:12px 16px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;background:#233a52}
+.whead .t{font-family:var(--label);text-transform:uppercase;letter-spacing:.08em;color:#fff}
+.whead .t b{color:var(--yellow)}
+.whead .d{font-family:var(--label);font-size:.72rem;letter-spacing:.1em;color:var(--cyan);text-transform:uppercase}
+
+/* ---------- Программа передач (ON TV) ---------- */
+.ontv{
+  background:#0d0d12;border:3px solid var(--ink);box-shadow:var(--shadow);
+  padding:30px 24px;text-align:center;color:#dfe3ea;
+}
+.chrome{
+  font-family:var(--label);font-weight:700;text-transform:uppercase;
+  font-size:clamp(2.2rem,6vw,4rem);letter-spacing:.05em;line-height:1;
+  background:repeating-linear-gradient(180deg,#f8f8f8 0 3px,#a9adbd 3px 6px);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 14px rgba(140,220,255,.35));
+}
+.chrome .tv{color:var(--cyan);-webkit-text-fill-color:var(--cyan);text-shadow:none;filter:none}
+.sched{margin-top:20px;text-align:left;max-width:420px;margin-inline:auto}
+.sched .row{display:flex;gap:14px;padding:9px 6px;border-bottom:1px dashed rgba(223,227,234,.3);font-family:var(--label);letter-spacing:.05em;transition:background .2s,padding-left .2s}
+.sched .row:hover{background:rgba(154,223,232,.12);padding-left:14px}
+.sched .time{color:var(--cyan);min-width:64px}
+.sched .what{text-transform:uppercase;font-size:.9rem}
+.sched .day{font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;color:var(--yellow);font-size:.75rem;margin:16px 0 2px}
+.ontv .dont{margin-top:18px;font-style:italic;color:#b9c0cc}
+
+/* ---------- Объявления ---------- */
+.ads-col .ad{
+  border:1.5px solid var(--ink);background:var(--paper-3);
+  padding:12px 14px;margin-bottom:14px;font-size:.92rem;
+  border-left:6px solid var(--ink);
+  transition:border-color .2s,transform .2s;
+}
+.ads-col .ad:hover{border-left-color:var(--red);transform:translateX(4px)}
+.ads-col .ad .who{font-family:var(--label);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-top:5px}
+
+/* ---------- Гороскоп ---------- */
+.horo{border:2px solid var(--ink);padding:22px;background:var(--paper-3);box-shadow:var(--shadow)}
+.horo h3{margin-bottom:8px}
+.horo .sign{font-family:var(--label);text-transform:uppercase;letter-spacing:.1em;font-size:.75rem;color:var(--mint-dark)}
+
+/* ---------- Рекламный модуль ---------- */
+.admodule{
+  border:3px dashed var(--ink);background:var(--yellow);
+  padding:30px;text-align:center;position:relative;box-shadow:var(--shadow);
+  transition:transform .2s;
+}
+.admodule:hover{transform:rotate(-.5deg)}
+.admodule h3{font-size:clamp(1.6rem,4vw,2.6rem);text-transform:uppercase;letter-spacing:.04em}
+.admodule .slogan{font-style:italic;margin-top:10px;font-size:1.05rem}
+.admodule .odobreno{position:absolute;top:12px;right:12px}
+
+/* ---------- Звезда номера (Then & Now) ---------- */
+.starcard{display:grid;grid-template-columns:1fr 340px;gap:30px;border:3px solid var(--ink);background:var(--paper-3);box-shadow:var(--shadow);padding:26px}
+@media(max-width:860px){.starcard{grid-template-columns:1fr}}
+.starcard .name{font-family:var(--display);font-weight:900;font-size:clamp(2rem,5vw,3.4rem);color:var(--mint-dark)}
+.nowtag{
+  display:inline-block;background:var(--ink);color:var(--paper);
+  font-family:var(--label);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:3px 10px;margin:6px 0 14px;
+}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.stat{border:1.5px solid var(--ink);padding:6px 12px;font-family:var(--label);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;background:var(--paper)}
+.stat b{color:var(--red-dark)}
+
+/* ---------- Эфир: плеер и архив ---------- */
+.tv{
+  max-width:920px;margin:0 auto;background:#16130d;
+  border:3px solid var(--ink);border-radius:16px;
+  box-shadow:9px 10px 0 rgba(33,29,21,.35);
+  padding:16px;
+}
+.tv video{width:100%;aspect-ratio:16/9;background:#000;border-radius:8px;display:block}
+.tv .nosignal{
+  position:absolute;inset:16px;display:none;align-items:center;justify-content:center;
+  text-align:center;background:#000;color:var(--yellow);
+  font-family:var(--label);letter-spacing:.12em;text-transform:uppercase;
+  font-size:.85rem;padding:20px;border-radius:8px;
+}
+.tv.error .nosignal{display:flex}
+.tvwrap{position:relative}
+.chapters{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{
+  font-family:var(--label);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--paper);border:2px solid var(--ink);color:var(--ink);
+  padding:6px 14px;cursor:pointer;transition:background .15s,color .15s,transform .15s;
+}
+.chip:hover{background:var(--red);color:var(--paper-3);transform:translateY(-2px)}
+.chip.active{background:var(--yellow)}
+.chip .t{opacity:.65;margin-left:6px;font-size:.68rem}
+.bar{position:relative;height:20px;background:rgba(239,227,200,.18);margin-top:12px;cursor:pointer;border:1px solid rgba(239,227,200,.3)}
+.bar .fill{position:absolute;top:0;bottom:0;left:0;width:0;background:var(--red)}
+.bar .mark{position:absolute;top:0;bottom:0;width:2px;background:var(--paper)}
+.bar .mark::after{
+  content:attr(data-ch);position:absolute;top:-24px;left:50%;transform:translateX(-50%);
+  font-family:var(--label);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;
+  color:rgba(239,227,200,.85);white-space:nowrap;
+}
+.tvtimers{display:flex;justify-content:space-between;margin-top:8px;font-family:var(--label);font-size:.7rem;letter-spacing:.1em;color:rgba(239,227,200,.75)}
+.hint{font-size:.85rem;font-style:italic;color:var(--ink-soft);max-width:920px;margin:14px auto 0;text-align:center}
+
+.issue-row{
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+  border:2px solid var(--ink);background:var(--paper-3);box-shadow:var(--shadow);
+  padding:18px 20px;margin-bottom:18px;max-width:920px;margin-inline:auto;
+  transition:transform .2s;
+}
+.issue-row:hover{transform:translateY(-3px)}
+.issue-row .in{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.issue-row .id{font-size:.85rem;color:var(--ink-soft)}
+.issue-row .acts{display:flex;gap:10px}
+.btn{
+  font-family:var(--label);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;border:2px solid var(--ink);padding:8px 16px;
+  background:var(--yellow);color:var(--ink);box-shadow:3px 3px 0 rgba(33,29,21,.35);
+  transition:transform .15s,background .15s,color .15s;white-space:nowrap;
+}
+.btn:hover{background:var(--red);color:var(--paper-3);transform:translate(2px,2px);box-shadow:1px 1px 0 rgba(33,29,21,.35)}
+.btn.ghost{background:var(--paper-3)}
+.issue-row.locked{opacity:.55}
+.issue-row.locked .btn{pointer-events:none;background:var(--paper-2)}
+
+/* ---------- Подвал ---------- */
+.sitefoot{
+  padding:40px clamp(18px,5vw,72px) 50px;text-align:center;
+  background:var(--ink);color:var(--paper);
+}
+.sitefoot .fm{font-family:var(--display);font-weight:900;font-size:1.6rem}
+.sitefoot p{font-family:var(--label);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-top:8px;color:rgba(239,227,200,.75)}
+
+/* ---------- Мобильная адаптация ---------- */
+@media(max-width:760px){
+  body{font-size:15.5px}
+  .page{padding:70px 16px 60px}
+  .cols{columns:1}
+  .facts{gap:12px}
+  .fact{max-width:100%}
+  .front-cols,.news-grid,.letters,.hot-wrap{gap:22px}
+  .wrow{grid-template-columns:1fr auto;padding:10px 12px}
+  .wrow .wd{display:none}
+  .bigquote{outline-offset:4px}
+  .admodule .odobreno{position:static;display:inline-block;margin-bottom:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
