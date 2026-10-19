@@ -48,9 +48,8 @@ const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хост
     dots.forEach((d, i) => d.classList.toggle('on', i === idx));
     pageno.textContent = `разворот ${idx + 1} / ${total}`;
     chips.forEach((c) => {
-      const target = c.getAttribute('href').slice(1);
-      const targetIdx = spreads.findIndex((s) => s.id === target);
-      c.classList.toggle('active', targetIdx === idx);
+      const target = parseInt(c.dataset.s, 10);
+      c.classList.toggle('active', target === idx);
     });
   }
 
@@ -87,9 +86,7 @@ const VIDEO_FILE = 'video/vypusk-1.mp4'; // путь к файлу на хост
   chips.forEach((c) => {
     c.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = c.getAttribute('href').slice(1);
-      const i = spreads.findIndex((s) => s.id === target);
-      if (i >= 0) go(i);
+      go(parseInt(c.dataset.s, 10) || 0);
     });
   });
 

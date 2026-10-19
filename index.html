@@ -12,20 +12,26 @@
 </head>
 <body>
 
+<!-- общие defs для винтажных иллюстраций -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <pattern id="ht" width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r="0.85" fill="#26221a" opacity="0.32"/></pattern>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2d4ae"/><stop offset="1" stop-color="#b3a077"/></linearGradient>
+</defs></svg>
+
 <!-- Липкая лента-навигатор -->
 <div class="topbar">
   <div class="logo">ОФФТОП <span>ПОСТ</span></div>
   <nav class="navchips" id="nav">
-    <a href="#s1">Полоса</a>
-    <a href="#s1">Вести</a>
-    <a href="#s2">Новость дня</a>
-    <a href="#s2">Темы</a>
-    <a href="#s3">Цитата</a>
-    <a href="#s3">Почта</a>
-    <a href="#s4">Погода</a>
-    <a href="#s4">Объявы</a>
-    <a href="#s5">Звезда</a>
-    <a href="#s5">Эфир</a>
+    <a href="#s1" data-s="0">Полоса</a>
+    <a href="#s1" data-s="0">Вести</a>
+    <a href="#s2" data-s="1">Новость дня</a>
+    <a href="#s2" data-s="1">Темы</a>
+    <a href="#s3" data-s="2">Цитата</a>
+    <a href="#s3" data-s="2">Почта</a>
+    <a href="#s4" data-s="3">Погода</a>
+    <a href="#s4" data-s="3">Объявы</a>
+    <a href="#s5" data-s="4">Звезда</a>
+    <a href="#s5" data-s="4">Эфир</a>
   </nav>
   <div class="pageno" id="pageno">разворот 1 / 5</div>
 </div>
@@ -65,12 +71,39 @@
           <p>Качан сообщил о несогласии единственным доступным способом — записью в профиле:
           «а яхуеный». Редакция изучила профиль и подтверждает: к самооценке претензий нет,
           графы заполнены без обмана.</p>
-          <p>Отдельный трагизм: через два дня после бана у качана день рождения. Подарки,
-          впрочем, принимаются в теме Хардкилла — там как раз разбирают, что дарить.</p>
+          <p>Отдельный трагизм: через два дня после бана у качана день рождения. Праздновать
+          предстоит в тишине. Подарки, впрочем, уже принимаются в теме Хардкилла — там как раз
+          разбирают, что дарить.</p>
+          <p><span class="q">«Спортики виехали»</span> — комментарий из темы, который редакция
+          напечатать не может, но не напечатать не могла.</p>
         </article>
-        <figure class="photo tall">
+        <figure class="photo tall has-art">
+          <svg class="pv" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="300" height="400" fill="#cfc09a"/>
+            <rect x="36" y="26" width="228" height="348" fill="#f0e6cc" stroke="#26221a" stroke-width="3"/>
+            <circle cx="98" cy="92" r="30" fill="#b3a077" stroke="#26221a" stroke-width="2.5"/>
+            <rect x="66" y="128" width="64" height="8" fill="#26221a"/>
+            <rect x="150" y="62" width="96" height="9" fill="#8f836a"/>
+            <rect x="150" y="82" width="96" height="9" fill="#8f836a"/>
+            <rect x="150" y="102" width="70" height="9" fill="#8f836a"/>
+            <rect x="58" y="170" width="188" height="7" fill="#8f836a"/>
+            <rect x="58" y="188" width="188" height="7" fill="#8f836a"/>
+            <rect x="58" y="206" width="140" height="7" fill="#8f836a"/>
+            <rect x="58" y="224" width="188" height="7" fill="#8f836a"/>
+            <g transform="rotate(-11 150 300)">
+              <rect x="62" y="272" width="176" height="46" fill="none" stroke="#9e3a2c" stroke-width="4"/>
+              <rect x="68" y="278" width="164" height="34" fill="none" stroke="#9e3a2c" stroke-width="2"/>
+              <text x="150" y="303" text-anchor="middle" font-family="Oswald,Arial" font-weight="700" font-size="21" fill="#9e3a2c" letter-spacing="3">ОТДЫХ 18.12</text>
+            </g>
+            <rect width="300" height="400" fill="url(#ht)"/>
+          </svg>
           <figcaption>Профиль качан_капусты. Все графы — правда</figcaption>
         </figure>
+      </div>
+
+      <div class="inbox">
+        <b>В номере:</b> Вести с Лолзграда — 2 · Новость дня — 3 · Темы недели — 4 ·
+        Цитата — 5 · Письма — 6 · Погода и эфир — 7 · Объявы — 8 · Звезда — 9 · Смотреть эфир — 10
       </div>
 
       <div class="continue"><a href="#s2">Продолжение — листай разворот →</a></div>
@@ -92,7 +125,29 @@
         теперь можно читать Оффтопик, не выходя из игры.</p>
         <p>Редакция делает прогноз: первая тема «Отработка куки Лолза РП» появится быстрее,
         чем вы успеете прогреть движок. Дольше недели ждать не придётся.</p>
-        <figure class="photo wide" style="margin-top:10px">
+        <figure class="photo wide has-art" style="margin-top:10px">
+          <svg class="pv" viewBox="0 0 400 175" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="175" fill="url(#sky)"/>
+            <circle cx="332" cy="38" r="18" fill="#f2ead4"/>
+            <g fill="#26221a">
+              <rect x="0" y="95" width="52" height="80"/><rect x="60" y="72" width="38" height="103"/>
+              <rect x="106" y="102" width="56" height="73"/><rect x="170" y="58" width="34" height="117"/>
+              <polygon points="187,58 187,26 193,18 199,26 199,58"/>
+              <rect x="212" y="88" width="48" height="87"/><rect x="268" y="112" width="60" height="63"/>
+              <rect x="336" y="96" width="64" height="79"/>
+            </g>
+            <g fill="#e8d79a">
+              <rect x="68" y="82" width="6" height="8"/><rect x="80" y="82" width="6" height="8"/>
+              <rect x="68" y="98" width="6" height="8"/><rect x="80" y="114" width="6" height="8"/>
+              <rect x="116" y="112" width="6" height="8"/><rect x="130" y="112" width="6" height="8"/>
+              <rect x="116" y="130" width="6" height="8"/><rect x="178" y="70" width="6" height="8"/>
+              <rect x="190" y="70" width="6" height="8"/><rect x="178" y="90" width="6" height="8"/>
+              <rect x="220" y="98" width="6" height="8"/><rect x="234" y="98" width="6" height="8"/>
+              <rect x="220" y="116" width="6" height="8"/><rect x="348" y="106" width="6" height="8"/>
+              <rect x="360" y="106" width="6" height="8"/><rect x="348" y="124" width="6" height="8"/>
+            </g>
+            <rect width="400" height="175" fill="url(#ht)"/>
+          </svg>
           <figcaption>Лолзград. Вечер. Всё как у людей</figcaption>
         </figure>
       </div>
@@ -132,7 +187,20 @@
       </h2>
 
       <div class="hot-wrap">
-        <figure class="photo small">
+        <figure class="photo small has-art">
+          <svg class="pv" viewBox="0 0 300 225" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="300" height="225" fill="#d9c9a2"/>
+            <circle cx="70" cy="52" r="24" fill="none" stroke="#b3a077" stroke-width="8"/>
+            <g transform="rotate(-9 150 130)">
+              <rect x="70" y="92" width="170" height="86" fill="#f0e6cc" stroke="#26221a" stroke-width="3"/>
+              <rect x="84" y="106" width="142" height="9" fill="#8f836a"/>
+              <rect x="84" y="124" width="142" height="9" fill="#8f836a"/>
+              <rect x="84" y="142" width="96" height="9" fill="#8f836a"/>
+              <rect x="216" y="100" width="14" height="70" fill="#26221a"/>
+            </g>
+            <text x="150" y="216" text-anchor="middle" font-family="Oswald,Arial" font-size="13" fill="#26221a" letter-spacing="2">РЕКЛАМНОЕ МЕСТО СДАЁТСЯ</text>
+            <rect width="300" height="225" fill="url(#ht)"/>
+          </svg>
           <figcaption>Витрина профиля. Рекламное место</figcaption>
         </figure>
         <div>
@@ -227,6 +295,13 @@
         Коллекция честного человека пополняется.</p>
         <div class="stars-row"></div>
       </div>
+
+      <div class="facts" style="grid-template-columns:1fr 1fr;margin-top:18px">
+        <div class="fact" style="max-width:none"><b>Коллекция</b>Хайзенберг — второй экспонат.
+        Первый не выжил после распаковки. Соболезнуем.</div>
+        <div class="fact" style="max-width:none"><b>План на НГ</b>Канеки Кен за 6 000 р.
+        Редакция следит за сценой.</div>
+      </div>
     </article>
 
     <!-- правая: письма -->
@@ -245,7 +320,24 @@
         Пёс в наушниках — наш человек. Грязь делать продолжим, ты только не отписывайся.</div>
       </div>
 
-      <figure class="photo small" style="width:60%">
+      <figure class="photo has-art" style="height:250px">
+        <svg class="pv" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="250" fill="#d3c39c"/>
+          <ellipse cx="200" cy="196" rx="150" ry="16" fill="#b3a077"/>
+          <circle cx="200" cy="130" r="62" fill="#c7b489" stroke="#26221a" stroke-width="3"/>
+          <ellipse cx="152" cy="120" rx="20" ry="34" fill="#a5946c" stroke="#26221a" stroke-width="2.5"/>
+          <ellipse cx="248" cy="120" rx="20" ry="34" fill="#a5946c" stroke="#26221a" stroke-width="2.5"/>
+          <circle cx="180" cy="120" r="7" fill="#26221a"/>
+          <circle cx="220" cy="120" r="7" fill="#26221a"/>
+          <ellipse cx="200" cy="150" rx="13" ry="9" fill="#26221a"/>
+          <path d="M 200 159 q 0 16 -18 18" fill="none" stroke="#26221a" stroke-width="3"/>
+          <path d="M 128 108 A 78 78 0 0 1 272 108" fill="none" stroke="#26221a" stroke-width="11"/>
+          <rect x="106" y="98" width="34" height="56" rx="9" fill="#26221a"/>
+          <rect x="260" y="98" width="34" height="56" rx="9" fill="#26221a"/>
+          <rect x="114" y="108" width="18" height="36" rx="6" fill="#8f836a"/>
+          <rect x="268" y="108" width="18" height="36" rx="6" fill="#8f836a"/>
+          <rect width="400" height="250" fill="url(#ht)"/>
+        </svg>
         <figcaption>Пукич двести двадцать восемь. Слушает нас</figcaption>
       </figure>
 
@@ -278,7 +370,7 @@
       </div>
       <p class="note">Наведи на город — увидишь, как подсвечивало в эфире.</p>
 
-      <div class="ontv" style="margin-top:16px">
+      <div class="ontv" style="margin-top:14px">
         <div class="chrome">ОФФТОП <span class="tv">FM</span></div>
         <div class="sched">
           <div class="day">Пн — Пт</div>
@@ -352,7 +444,19 @@
         <p><b>Известен по:</b> советам отмечать др в кругу семьи, бутербродам, слову «кацец»
         и фразе «оффтоп на тебе стоит».</p>
         <p><b>В следующем номере:</b> звезда может быть ты. Редакция смотрит на счётчики.</p>
-        <figure class="photo wide">
+        <figure class="photo wide has-art">
+          <svg class="pv" viewBox="0 0 400 175" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="175" fill="#d9c9a2"/>
+            <ellipse cx="200" cy="60" rx="118" ry="26" fill="#e8d3a4" stroke="#26221a" stroke-width="3"/>
+            <rect x="92" y="72" width="216" height="20" fill="#dcaa47" stroke="#26221a" stroke-width="3"/>
+            <rect x="100" y="94" width="200" height="16" fill="#83b29a" stroke="#26221a" stroke-width="3"/>
+            <rect x="92" y="112" width="216" height="18" fill="#e8d3a4" stroke="#26221a" stroke-width="3"/>
+            <circle cx="120" cy="82" r="4" fill="#9e3a2c"/>
+            <circle cx="196" cy="82" r="4" fill="#9e3a2c"/>
+            <circle cx="266" cy="82" r="4" fill="#9e3a2c"/>
+            <text x="200" y="160" text-anchor="middle" font-family="Oswald,Arial" font-size="13" fill="#26221a" letter-spacing="2">ПОМОЙ ПОЛЫ — 500 Р. (МЕНЮ РАЛЬЗЕЯ, АРХИВ)</text>
+            <rect width="400" height="175" fill="url(#ht)"/>
+          </svg>
           <figcaption>Бутерброд (фото из архива звезды)</figcaption>
         </figure>
       </div>
