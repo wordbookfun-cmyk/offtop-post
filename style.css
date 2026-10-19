@@ -520,9 +520,14 @@ mark{background:var(--yellow-soft);padding:0 4px}
 @media(max-width:1099px){
   body{background:var(--paper);font-size:14.5px}
   .book{position:static;display:block;perspective:none;overflow:visible;padding-top:52px}
-  .spread{
+  /* жёсткий сброс книжных трансформаций — их не должно быть на мобильном */
+  .book .spread,
+  .book .spread.on,
+  .book .spread.before{
     position:static;width:auto;height:auto;display:block;
-    transform:none;opacity:1;visibility:visible;pointer-events:auto;transition:none;
+    transform:none!important;opacity:1!important;visibility:visible!important;
+    pointer-events:auto!important;transition:none!important;
+    grid-area:auto!important;
   }
   .spread+.spread{border-top:3px solid var(--ink)}
   .half{
@@ -536,11 +541,10 @@ mark{background:var(--yellow-soft);padding:0 4px}
   .headline{font-size:26px}
   .pink-title{font-size:26px}
   .bigquote .q-big{font-size:40px}
-  .front-cols,.newsbox+.lawbox,.hot-wrap,.grid2,.letters,.starcard{grid-template-columns:1fr}
-  .front-cols,.hot-wrap,.letters,.starcard{display:grid;gap:16px}
-  .grid2{display:grid;gap:14px}
+  .front-cols,.hot-wrap,.starcard{display:grid;grid-template-columns:1fr;gap:16px}
+  .grid2{display:grid;grid-template-columns:1fr;gap:14px}
   .facts{grid-template-columns:1fr 1fr}
-  .flipnav,.dots{display:none}
+  .flipnav,.dots{display:none!important}
   .sitefoot{display:block}
 }
 @media(min-width:1100px){
